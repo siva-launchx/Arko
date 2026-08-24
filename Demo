@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ARKO Physio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+[data-theme="dark"]{
+  --bg:#080808;
+  --bg2:#0e0e0e;
+  --bg3:#131313;
+  --bg4:#181818;
+  --card:#0e0e0e;
+  --card2:#131313;
+  --border:rgba(247,249,250,0.1);
+  --border2:rgba(247,249,250,0.22);
+  --text:#f7f9fa;
+  --text2:#8a8a8a;
+  --text3:#5a5a5a;
+  --accent:#E8611A;
+  --accent-text:#f7f9fa;
+  --ai:rgba(232,97,26,0.12);
+  --ai2:rgba(232,97,26,0.06);
+  --green:#68d391;
+  --red:#fc8181;
+  --nav:rgba(8,8,8,0.85);
+  --fh:'Inter',sans-serif;
+  --fb:'Inter',sans-serif;
+  --r:8px;--rl:16px;--rxl:20px;--rpill:9999px;
+  --btn-r:8px;
+  --shadow:none;
+}
+
+[data-theme="light"]{
+  --bg:#ffffff;
+  --bg2:#f5f0eb;
+  --bg3:#ffe8d6;
+  --bg4:#fdf1e8;
+  --card:#ffffff;
+  --card2:#f5f0eb;
+  --border:rgba(0,0,0,0.1);
+  --border2:#111;
+  --text:#111111;
+  --text2:#444444;
+  --text3:#888888;
+  --accent:#E8611A;
+  --accent-text:#ffffff;
+  --ai:rgba(232,97,26,0.1);
+  --ai2:rgba(232,97,26,0.05);
+  --green:#2f855a;
+  --red:#c53030;
+  --nav:rgba(255,255,255,0.95);
+  --fh:'Inter',sans-serif;
+  --fb:'Inter',sans-serif;
+  --r:10px;--rl:18px;--rxl:22px;--rpill:9999px;
+  --btn-r:10px;
+  --shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+html{height:100%;height:-webkit-fill-available;}
+body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100dvh;height:100vh;transition:background .3s,color .3s;overscroll-behavior:none;-webkit-font-smoothing:antialiased;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+.safe-top{height:env(safe-area-inset-top,0px);background:var(--nav);flex-shrink:0;z-index:500;position:relative;}
+
+.top-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:500;position:relative;}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.logo-text{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:-.01em;color:var(--text);}
+.logo-text em{font-style:normal;color:var(--accent);}
+.nav-r{display:flex;align-items:center;gap:7px;}
+.nav-btn{height:30px;padding:0 13px;border-radius:7px;background:transparent;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;font-family:'Inter',sans-serif;font-size:11px;font-weight:400;color:var(--text2);letter-spacing:.03em;}
+.nav-btn:active{opacity:.7;}
+[data-theme="dark"] .sun-ico{display:none;}
+[data-theme="light"] .moon-ico{display:none;}
+.nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;}
+
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:none;position:relative;z-index:2;padding-bottom:calc(72px + env(safe-area-inset-bottom,0px));}
+.screen{display:none;min-height:100%;}
+.screen.active{display:block;}
+.screen.in{animation:sIn .2s ease-out forwards;}
+@keyframes sIn{from{transform:translateX(14px);opacity:0;}to{transform:none;opacity:1;}}
+
+.bnav{display:flex;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0 max(14px,env(safe-area-inset-bottom,14px));position:fixed;bottom:0;left:0;right:0;z-index:500;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 0;min-height:44px;border:none;background:none;touch-action:manipulation;}
+.ni svg{width:20px;height:20px;stroke:var(--text3);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s,transform .2s;}
+.ni.active svg{stroke:var(--accent);transform:scale(1.08);}
+.nl{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;transition:color .15s;}
+.ni.active .nl{color:var(--accent);}
+.nd{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s;margin-top:-1px;}
+.ni.active .nd{opacity:1;}
+
+/* PROFILE PANEL */
+.profile-panel{position:absolute;top:100%;left:0;right:0;z-index:400;background:var(--bg2);border-bottom:1px solid var(--border);display:none;padding:20px 18px 26px;}
+.profile-panel.open{display:block;}
+.pp-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.pp-av{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.pp-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--text);}
+.pp-sub{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);}
+.pp-badge{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;background:var(--accent);color:#fff;border-radius:9999px;flex-shrink:0;margin-left:auto;}
+.pp-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:14px;}
+.pp-stat{text-align:center;padding:12px 6px;border-right:1px solid var(--border);}
+.pp-stat:last-child{border-right:none;}
+.pp-stat-n{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--accent);}
+.pp-stat-l{font-family:'Inter',sans-serif;font-size:8px;font-weight:500;color:var(--text3);margin-top:2px;letter-spacing:.1em;text-transform:uppercase;}
+.pp-next{padding:13px;background:var(--card);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:13px;}
+.ppn-lbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.ppn-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.ppn-title{font-size:13px;font-weight:600;color:var(--text);}
+.ppn-sub{font-size:10px;color:var(--text3);margin-top:1px;}
+.pp-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:13px;}
+.ppa{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 4px;border-radius:var(--rl);background:var(--card);cursor:pointer;touch-action:manipulation;border:1px solid var(--border);}
+.ppa svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.ppa span{font-size:8px;font-weight:600;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;text-align:center;}
+.pp-refer{display:flex;align-items:center;gap:10px;background:var(--ai2);border-radius:var(--rl);padding:11px 13px;border:1px solid rgba(232,97,26,0.15);}
+.ppr-body{flex:1;font-size:12px;color:var(--text2);line-height:1.5;}
+.ppr-body strong{color:var(--text);font-weight:700;}
+.ppr-cta{font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;cursor:pointer;touch-action:manipulation;transition:opacity .15s;font-family:'Inter',sans-serif;}
+.btn:active{opacity:.7;}
+.btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.btn-p{background:var(--accent);color:#fff;padding:11px 22px;font-size:12px;font-weight:600;letter-spacing:.04em;border-radius:var(--btn-r);}
+.btn-g{background:transparent;color:var(--text2);border:1px solid var(--border);padding:10px 18px;font-size:12px;font-weight:500;letter-spacing:.03em;border-radius:var(--btn-r);}
+.btn-b{width:100%;padding:14px;font-size:13px;}
+
+/* HERO */
+.hero{padding:32px 20px 26px;position:relative;overflow:hidden;min-height:100%;}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 85% 15%,rgba(232,97,26,.14) 0%,transparent 55%),radial-gradient(ellipse 35% 25% at 10% 75%,rgba(232,97,26,.06) 0%,transparent 50%);}
+.hero-tag{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.06);border:1px solid var(--border);padding:5px 13px;border-radius:20px;position:relative;z-index:1;}
+[data-theme="light"] .hero-tag{background:var(--ai);border-color:rgba(232,97,26,0.2);color:var(--accent);}
+.hero h1{font-family:'Inter',sans-serif;font-size:clamp(36px,9.5vw,60px);font-weight:700;line-height:.94;letter-spacing:-.04em;margin-bottom:14px;color:var(--text);position:relative;z-index:1;}
+.hero h1 span{display:block;}
+.hero h1 .ac{color:var(--accent);}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:24px;max-width:300px;position:relative;z-index:1;font-weight:300;}
+.hero-cta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:28px;position:relative;z-index:1;}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:6px;position:relative;z-index:1;}
+.sc{border:1px solid var(--border);border-radius:var(--rxl);padding:15px 13px;}
+[data-theme="light"] .sc{background:#fff;box-shadow:var(--shadow);}
+.sc-n{font-family:'Inter',sans-serif;font-size:22px;font-weight:300;letter-spacing:-.04em;color:var(--text);line-height:1;}
+[data-theme="light"] .sc-n{font-weight:700;color:var(--accent);}
+.sc-l{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;color:var(--text3);margin-top:4px;letter-spacing:.16em;text-transform:uppercase;}
+
+/* THERAPIST CARDS */
+.ht-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);margin:22px 0 12px;}
+.ht-scroll{display:flex;gap:11px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.ht-scroll::-webkit-scrollbar{display:none;}
+.ht-card{flex-shrink:0;width:148px;cursor:pointer;touch-action:manipulation;}
+.ht-card:active{opacity:.8;}
+.ht-photo{width:148px;height:192px;border-radius:var(--rxl);overflow:hidden;position:relative;display:flex;align-items:flex-end;background-color:#0e0e0e;border:1px solid var(--border);}
+.ht-photo::before{content:attr(data-initials);position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-family:'Inter',sans-serif;font-size:46px;font-weight:200;letter-spacing:-.03em;opacity:.2;color:#f7f9fa;}
+.ht-photo-shoban{background:linear-gradient(160deg,#1a0800 0%,#2d1200 50%,#3d1a00 100%);}
+.ht-photo-peiqi{background:linear-gradient(160deg,#0a0a1a 0%,#1a1a2d 50%,#0a1228 100%);}
+.ht-photo-haziq{background:linear-gradient(160deg,#0a1a0a 0%,#142814 50%,#0f200f 100%);}
+.ht-photo-wei{background:linear-gradient(160deg,#1a0a0a 0%,#2d1414 50%,#1a0808 100%);}
+.ht-overlay{position:relative;z-index:1;padding:11px;width:100%;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.45) 60%,transparent 100%);}
+.ht-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:300;color:#f7f9fa;letter-spacing:-.02em;margin-bottom:2px;}
+.ht-cred{font-family:'Inter',sans-serif;font-size:9px;color:rgba(247,249,250,.6);letter-spacing:.02em;margin-bottom:3px;}
+.ht-reviews{font-family:'Inter',sans-serif;font-size:9px;color:var(--accent);font-weight:600;}
+.ht-tags{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap;}
+.ht-tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:rgba(247,249,250,0.07);color:var(--text3);border:1px solid var(--border);}
+
+/* SHARED CONTENT */
+.sc-wrap{padding:24px 18px 32px;}
+.sc-hd{margin-bottom:22px;}
+.eyebrow{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;display:block;}
+.sc-title{font-family:'Inter',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-bottom:6px;color:var(--text);}
+.sc-sub{font-family:'Inter',sans-serif;font-size:13px;color:var(--text2);line-height:1.65;}
+.sec{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin:22px 0 11px;padding-bottom:7px;border-bottom:1px solid var(--border);}
+
+/* BOOKING */
+.cat-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.cat-tabs::-webkit-scrollbar{display:none;}
+.cat-tab{flex-shrink:0;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:6px 13px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:7px;cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:all .15s;}
+.cat-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.svc-list{display:flex;flex-direction:column;gap:9px;}
+.svc-row{display:flex;align-items:center;padding:14px;gap:12px;cursor:pointer;background:transparent;border:1px solid var(--border);border-radius:var(--rxl);touch-action:manipulation;transition:border-color .15s;}
+.svc-row.selected{border-color:var(--accent);}
+.svc-ico{width:36px;height:36px;border-radius:var(--r);background:var(--ai);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.svc-ico svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.svc-row.selected .svc-ico{background:var(--accent);}
+.svc-row.selected .svc-ico svg{stroke:#fff;}
+.svc-body{flex:1;min-width:0;}
+.svc-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.svc-meta{font-family:'Inter',sans-serif;font-size:10px;color:var(--text3);}
+.svc-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.svc-price{font-family:'Inter',sans-serif;font-size:15px;font-weight:400;color:var(--text);letter-spacing:-.02em;}
+.svc-add{width:20px;height:20px;border-radius:50%;background:var(--ai);border:none;display:flex;align-items:center;justify-content:center;}
+.svc-add svg{width:9px;height:9px;stroke:var(--accent);fill:none;stroke-width:2.5;}
+.svc-row.selected .svc-add{background:var(--accent);}
+.svc-row.selected .svc-add svg{stroke:#fff;}
+.nudge{background:var(--ai2);border:1px solid rgba(232,97,26,0.18);border-radius:var(--r);padding:11px 12px;display:flex;align-items:center;gap:8px;margin-top:9px;}
+.nudge-ico svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:1.5;flex-shrink:0;}
+.nudge-body{flex:1;font-size:11px;color:var(--text2);line-height:1.5;}
+.nudge-body strong{color:var(--text);font-weight:700;}
+.nudge-cta{font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;}
+.t-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.t-scroll::-webkit-scrollbar{display:none;}
+.t-pill{flex-shrink:0;border:1px solid var(--border);border-radius:9999px;padding:9px 14px;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:7px;background:transparent;transition:border-color .15s;}
+.t-pill.selected{border-color:var(--accent);background:rgba(232,97,26,0.08);}
+.t-av{width:22px;height:22px;border-radius:50%;background:var(--ai);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;}
+.t-n{font-size:12px;font-weight:600;color:var(--text);}
+.t-s{font-size:9px;color:var(--text3);}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+.slot{background:transparent;border:1px solid var(--border);border-radius:6px;padding:12px 4px;text-align:center;font-size:11px;font-weight:400;cursor:pointer;color:var(--text2);transition:all .15s;}
+.slot.sel{background:var(--accent);color:#fff;border-color:var(--accent);}
+.slot.off{opacity:.2;pointer-events:none;}
+.sum-card{background:transparent;border:1px solid var(--border);border-radius:var(--rxl);overflow:hidden;margin-top:20px;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-bottom:1px solid var(--border);}
+.sum-row:last-child{border-bottom:none;}
+.sum-l{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);}
+.sum-v{font-size:13px;font-weight:600;color:var(--text);text-align:right;}
+.sum-row.total .sum-v{font-size:20px;font-weight:700;color:var(--accent);}
+.fg{margin-bottom:11px;}
+.fl{display:block;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+.fi,.fs{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:10px 0;font-size:15px;color:var(--text);font-family:'Inter',sans-serif;outline:none;-webkit-appearance:none;appearance:none;border-radius:0;}
+[data-theme="light"] .fi,[data-theme="light"] .fs{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;}
+.fs option{background:var(--bg2);}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.book-foot{position:fixed;bottom:calc(56px + env(safe-area-inset-bottom,0px));left:0;right:0;background:var(--nav);border-top:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:300;}
+.bf-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);}
+.bf-val{font-size:22px;font-weight:300;letter-spacing:-.04em;color:var(--text);line-height:1;}
+.bf-meta{font-size:10px;color:var(--text3);}
+
+/* MEMBERSHIP */
+.incl{background:var(--ai2);border:1px solid rgba(232,97,26,0.15);border-radius:var(--rl);padding:14px;margin-bottom:18px;}
+.incl-hd{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.incl-row{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text2);line-height:1.5;padding:4px 0;}
+.incl-row svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2.5;flex-shrink:0;margin-top:2px;}
+.tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.tier{border:1px solid var(--border);border-radius:var(--rl);padding:16px;position:relative;}
+.tier.featured{border-color:var(--accent);}
+.t-badge{position:absolute;top:-10px;left:14px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 10px;border-radius:9999px;}
+.t-tier-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.t-prow{display:flex;align-items:baseline;gap:4px;margin-bottom:8px;}
+.t-price{font-size:26px;font-weight:700;letter-spacing:-.04em;color:var(--text);}
+.tier.featured .t-price{color:var(--accent);}
+.t-per{font-size:11px;color:var(--text3);}
+.t-desc{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:10px;}
+.t-pill-tag{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:9999px;margin-bottom:11px;}
+.t-pill-tag.base{background:rgba(255,255,255,.06);color:var(--text3);}
+.t-pill-tag.up{background:rgba(232,97,26,0.12);color:var(--accent);}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px;}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:var(--rl);padding:13px 12px;}
+.kpi-n{font-size:20px;font-weight:600;letter-spacing:-.03em;color:var(--accent);line-height:1;}
+.kpi-l{font-size:10px;font-weight:600;color:var(--text2);margin-top:3px;}
+.kpi-s{font-size:9px;color:var(--text3);margin-top:2px;}
+.ms-lbl{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:16px 0 9px;}
+.mt{width:100%;border-collapse:collapse;font-size:12px;}
+.mt th{padding:8px 10px;text-align:left;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);}
+.mt td{padding:10px 10px;border-bottom:1px solid var(--border);color:var(--text2);}
+.mt tr:last-child td{border-bottom:none;}
+.mt tr.tot td{color:var(--text);font-weight:600;}
+.mt tr.hl td{color:var(--accent);font-weight:600;}
+.m-note{font-size:11px;color:var(--text3);line-height:1.6;margin-top:13px;padding-top:11px;border-top:1px solid var(--border);}
+
+/* LPH bars */
+.lph-bars{display:flex;flex-direction:column;gap:9px;margin-bottom:16px;}
+.lph-row{display:flex;align-items:center;gap:10px;}
+.lph-l{font-size:10px;color:var(--text3);width:60px;flex-shrink:0;}
+.lph-track{flex:1;height:7px;background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden;}
+.lph-fill{height:100%;background:var(--accent);border-radius:9999px;}
+.lph-fill.dim{background:rgba(255,255,255,0.12);}
+.lph-fill.warn{background:var(--red);}
+.lph-v{font-size:10px;font-weight:600;color:var(--text2);width:46px;text-align:right;flex-shrink:0;}
+
+/* JOURNEY */
+.journey-tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);padding:0 18px;}
+.journey-tabs::-webkit-scrollbar{display:none;}
+.jt{flex-shrink:0;padding:13px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--text3);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:.03em;}
+.jt.active{color:var(--accent);border-bottom-color:var(--accent);}
+.jpanel{display:none;padding:18px;}
+.jpanel.active{display:block;}
+
+/* CONSUMER JOURNEY */
+.cj-intro{margin-bottom:20px;}
+.cj-intro-tag{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.cj-intro-title{font-size:20px;font-weight:600;letter-spacing:-.02em;color:var(--text);margin-bottom:4px;}
+.cj-intro-sub{font-size:13px;color:var(--text2);line-height:1.6;}
+.cj-stage{padding:18px 0;border-bottom:1px solid var(--border);}
+.cj-stage-hd{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.cj-stage-num{font-size:20px;font-weight:700;color:var(--accent);line-height:1;min-width:26px;}
+.cj-stage-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.cj-stage-sub{font-size:11px;color:var(--text3);}
+.cj-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.cj-card{display:flex;gap:11px;padding:12px;background:var(--card2);border-radius:var(--rl);border:1px solid var(--border);}
+.cj-card.cj-card-accent{border-color:rgba(232,97,26,0.25);background:var(--ai2);}
+.cj-card-ico{width:32px;height:32px;border-radius:var(--r);background:var(--ai);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cj-card-ico svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;}
+.cj-card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.cj-card-txt{font-size:11px;color:var(--text2);line-height:1.6;}
+
+/* WHATSAPP */
+.wa{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rxl);overflow:hidden;margin-bottom:16px;}
+.wa-hd{padding:11px 13px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);background:var(--bg3);}
+[data-theme="light"] .wa-hd{background:var(--accent);}
+.wa-av{width:30px;height:30px;border-radius:50%;background:var(--ai);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);}
+[data-theme="light"] .wa-av{background:rgba(255,255,255,.25);color:#fff;}
+.wa-nm{font-size:12px;font-weight:700;color:var(--text);}
+[data-theme="light"] .wa-nm{color:#fff;}
+.wa-st{font-size:9px;color:var(--text3);}
+[data-theme="light"] .wa-st{color:rgba(255,255,255,.7);}
+.wa-msgs{padding:14px;display:flex;flex-direction:column;gap:9px;}
+.wm{max-width:82%;padding:10px 13px;font-size:12px;line-height:1.6;border-radius:var(--rl);}
+.wm .t{font-size:9px;color:var(--text3);margin-top:4px;text-align:right;}
+.wm.in{background:var(--card2);align-self:flex-start;border-bottom-left-radius:3px;color:var(--text);border:1px solid var(--border);}
+.wm.out{background:rgba(232,97,26,0.12);align-self:flex-end;border-bottom-right-radius:3px;color:var(--text);}
+[data-theme="light"] .wm.out{background:rgba(232,97,26,0.15);}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;gap:0;}
+.tli{display:flex;gap:12px;padding-bottom:16px;position:relative;}
+.tli::before{content:'';position:absolute;left:22px;top:24px;bottom:0;width:1px;background:var(--border);}
+.tli:last-child::before{display:none;}
+.tl-dot{width:44px;height:22px;border-radius:9999px;background:var(--ai);border:1px solid rgba(232,97,26,0.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:2px;letter-spacing:.04em;}
+.tl-day{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px;}
+.tl-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.tl-txt{font-size:11px;color:var(--text2);line-height:1.6;}
+
+/* SEQUENCE */
+.cj-sequence{display:flex;flex-direction:column;gap:10px;}
+.cj-seq-item{display:flex;gap:10px;align-items:flex-start;}
+.cj-seq-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
+.cj-seq-body{font-size:12px;color:var(--text2);line-height:1.6;}
+.cj-seq-body strong{color:var(--text);}
+
+/* P&L / PROJECTION */
+.proj-legend{display:flex;gap:14px;margin-bottom:10px;}
+.pl-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.pl-dot{width:10px;height:10px;border-radius:3px;}
+.pl-dot.cur{background:rgba(255,255,255,0.18);}
+.pl-dot.y1{background:var(--accent);}
+.proj-bars{display:flex;gap:12px;align-items:flex-end;height:80px;margin-bottom:18px;padding:0 4px;}
+.pbar-w{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.pbar{width:100%;border-radius:4px 4px 0 0;}
+.pbar.cur{background:rgba(255,255,255,0.12);}
+.pbar.y1{background:var(--accent);}
+.pbar-l{font-size:9px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;}
+
+/* ANNUAL UPGRADE */
+.anl-card{background:var(--ai2);border:1px solid rgba(232,97,26,0.2);border-radius:var(--rl);padding:16px;margin-bottom:16px;}
+.ac-tag{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.ac-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.ac-body{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;}
+.ac-stats{display:flex;gap:14px;}
+.acs{text-align:center;}
+.acs-n{font-size:22px;font-weight:700;color:var(--accent);}
+.acs-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;}
+.plan-rows{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.plan-row{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);border-radius:var(--rl);cursor:pointer;transition:border-color .15s;position:relative;}
+.plan-row.sel{border-color:var(--accent);}
+.plan-check{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.plan-row.sel .plan-check{background:var(--accent);border-color:var(--accent);}
+.plan-check svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2.5;opacity:0;}
+.plan-row.sel .plan-check svg{opacity:1;}
+.plan-tier-lbl{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.plan-price{font-size:18px;font-weight:700;color:var(--accent);letter-spacing:-.02em;}
+.plan-save{font-size:10px;color:var(--text3);}
+.plan-badge{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:#fff;padding:2px 8px;border-radius:9999px;}
+.order-box{background:var(--card2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:16px;}
+.o-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);}
+.o-row:last-child{border-bottom:none;}
+.o-l{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);}
+.o-v{font-size:13px;font-weight:600;color:var(--text);}
+
+/* TOUR */
+#tourWrap{display:none;position:fixed;inset:0;z-index:900;}
+#tourBackdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);}
+#tourSpot{position:absolute;border-radius:10px;box-shadow:0 0 0 9999px rgba(0,0,0,.65);transition:all .25s ease;z-index:901;}
+#tourBox{position:absolute;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:340px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px;z-index:902;}
+#tourLbl{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+#tourH{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;}
+#tourB{font-size:12px;color:var(--text2);line-height:1.65;}
+.tour-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+.tour-pips{display:flex;gap:5px;}
+.tour-pip{width:6px;height:6px;border-radius:50%;background:var(--border);}
+.tour-pip.on{background:var(--accent);}
+.tour-actions{display:flex;gap:8px;}
+#tbtnSkip{padding:7px 13px;border-radius:var(--btn-r);background:transparent;border:1px solid var(--border);font-size:11px;color:var(--text3);cursor:pointer;}
+#tbtnNext{padding:7px 16px;border-radius:var(--btn-r);background:var(--accent);border:none;font-size:11px;font-weight:600;color:#fff;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="safe-top"></div>
+
+<!-- TOP NAV -->
+<div class="top-nav" style="position:relative;">
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 22C6 17 2 13 2 8a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 5-4 9-10 14z"/></svg>
+    </div>
+    <span class="logo-text">ARKO <em>Physio</em></span>
+  </div>
+  <div class="nav-r">
+    <button class="nav-btn" onclick="toggleProfile()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      &nbsp;You
+    </button>
+    <button class="nav-btn" onclick="startTour()">Tour</button>
+    <button class="nav-btn" onclick="toggleTheme()">
+      <svg class="moon-ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+
+  <!-- PROFILE PANEL -->
+  <div class="profile-panel" id="profilePanel">
+    <div class="pp-hd">
+      <div class="pp-av">SC</div>
+      <div>
+        <div class="pp-name">Sarah Chong</div>
+        <div class="pp-sub">Recovery member · since Mar 2026</div>
+      </div>
+      <div class="pp-badge">Active</div>
+    </div>
+    <div class="pp-stats">
+      <div class="pp-stat"><div class="pp-stat-n">9</div><div class="pp-stat-l">Sessions</div></div>
+      <div class="pp-stat"><div class="pp-stat-n">Shoban</div><div class="pp-stat-l">Physio</div></div>
+      <div class="pp-stat"><div class="pp-stat-n">SGD 980</div><div class="pp-stat-l">Invested</div></div>
+    </div>
+    <div class="pp-next">
+      <div class="ppn-lbl">Next session</div>
+      <div class="ppn-row">
+        <div>
+          <div class="ppn-title">Physio Assessment · 45 min</div>
+          <div class="ppn-sub">Shoban · Joo Chiat · Mon 25 Aug · 10:00 AM</div>
+        </div>
+        <button class="btn btn-g" style="font-size:10px;padding:7px 12px;" onclick="closeProfile()">Manage</button>
+      </div>
+    </div>
+    <div class="pp-actions">
+      <div class="ppa" onclick="go(1);closeProfile()">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Book</span>
+      </div>
+      <div class="ppa" onclick="go(2);closeProfile()">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>Membership</span>
+      </div>
+      <div class="ppa" onclick="go(3);closeProfile()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Journey</span>
+      </div>
+      <div class="ppa">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Reminders</span>
+      </div>
+    </div>
+    <div class="pp-refer">
+      <div class="ppr-body"><strong>Refer a friend</strong> — get one follow-up session free when they complete their first course.</div>
+      <div class="ppr-cta">Share →</div>
+    </div>
+  </div>
+</div>
+
+<div class="scroll" id="scrollArea">
+
+<!-- HOME -->
+<div class="screen active" id="s0">
+<div class="hero">
+  <div class="hero-tag">Joo Chiat · East Singapore</div>
+  <h1><span>Progressive.</span><span>Evidence-</span><span class="ac">based.</span></h1>
+  <p class="hero-sub">Clinical physiotherapy built for people who take recovery seriously. One clinic, Joo Chiat.</p>
+  <div class="hero-cta">
+    <button class="btn btn-p" onclick="go(1)">Book a session</button>
+    <button class="btn btn-g" onclick="toggleProfile()">Our physios</button>
+  </div>
+  <div class="hero-stats" id="tgt0">
+    <div class="sc"><div class="sc-n">4</div><div class="sc-l">Clinicians</div></div>
+    <div class="sc"><div class="sc-n">4★+</div><div class="sc-l">Google reviews</div></div>
+    <div class="sc"><div class="sc-n">SGD 200</div><div class="sc-l">First session</div></div>
+    <div class="sc"><div class="sc-n">Joo Chiat</div><div class="sc-l">Location</div></div>
+  </div>
+
+  <div class="ht-label">Our team</div>
+  <div class="ht-scroll">
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-shoban" data-initials="SH">
+        <div class="ht-overlay">
+          <div class="ht-name">Shoban</div>
+          <div class="ht-cred">Founder · Lead Physio · Joo Chiat</div>
+          <div class="ht-reviews">★ 5.0 · 40+ reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Sports rehab</span><span class="ht-tag">Manual therapy</span></div>
+    </div>
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-peiqi" data-initials="PQ">
+        <div class="ht-overlay">
+          <div class="ht-name">Toh Pei Qi</div>
+          <div class="ht-cred">Physiotherapist · Joo Chiat</div>
+          <div class="ht-reviews">★ 4.9 · 18 reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Post-surgical</span><span class="ht-tag">Women's health</span></div>
+    </div>
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-haziq" data-initials="HZ">
+        <div class="ht-overlay">
+          <div class="ht-name">Haziq</div>
+          <div class="ht-cred">Physiotherapist · Joo Chiat</div>
+          <div class="ht-reviews">★ 4.9 · 12 reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Musculoskeletal</span><span class="ht-tag">Return to sport</span></div>
+    </div>
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-wei" data-initials="CW">
+        <div class="ht-overlay">
+          <div class="ht-name">Chong Wei Zhi</div>
+          <div class="ht-cred">Sports Trainer · Joo Chiat</div>
+          <div class="ht-reviews">★ 4.9 · 8 reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Sports massage</span><span class="ht-tag">Cupping</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- BOOK -->
+<div class="screen" id="s1">
+<div class="sc-wrap" style="padding-bottom:160px;">
+  <div class="sc-hd"><div class="eyebrow">New patient</div><div class="sc-title">Book your session</div><div class="sc-sub">First visit. No commitment required.</div></div>
+  <div class="cat-tabs" id="tgt1">
+    <div class="cat-tab active" onclick="setCat(this)">All</div>
+    <div class="cat-tab" onclick="setCat(this)">Physiotherapy</div>
+    <div class="cat-tab" onclick="setCat(this)">Sports massage</div>
+    <div class="cat-tab" onclick="setCat(this)">Cupping</div>
+    <div class="cat-tab" onclick="setCat(this)">Virtual</div>
+  </div>
+  <div class="svc-list">
+    <div class="svc-row selected" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22C6 17 2 13 2 8a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 5-4 9-10 14z"/></svg></div><div class="svc-body"><div class="svc-name">Initial Physio Assessment</div><div class="svc-meta">45 min · First visit</div></div><div class="svc-r"><div class="svc-price">SGD 200</div><div class="svc-add"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div></div>
+    <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22C6 17 2 13 2 8a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 5-4 9-10 14z"/></svg></div><div class="svc-body"><div class="svc-name">Follow-up Physio Session</div><div class="svc-meta">45 min · Returning patient</div></div><div class="svc-r"><div class="svc-price">SGD 180</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
+    <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="svc-body"><div class="svc-name">Sports Massage</div><div class="svc-meta">45 min · Recovery</div></div><div class="svc-r"><div class="svc-price">SGD 120</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
+    <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="svc-body"><div class="svc-name">Sports Massage</div><div class="svc-meta">60 min · Deep tissue</div></div><div class="svc-r"><div class="svc-price">SGD 150</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
+    <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div class="svc-body"><div class="svc-name">Cupping Therapy</div><div class="svc-meta">30 min · Add-on or standalone</div></div><div class="svc-r"><div class="svc-price">SGD 80</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
+    <div class="svc-row" onclick="selSvc(this)"><div class="svc-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="svc-body"><div class="svc-name">Virtual Physiotherapy</div><div class="svc-meta">45 min · Teleconsult via Zoom</div></div><div class="svc-r"><div class="svc-price">SGD 130</div><div class="svc-add"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div></div>
+  </div>
+  <div class="nudge"><div class="nudge-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="nudge-body"><strong>Book a 6-session course</strong> — SGD 1,100 total. Initial assessment + 5 follow-ups. Best outcome, best value.</div><div class="nudge-cta" onclick="go(2)">See</div></div>
+  <div class="sec">Clinician</div>
+  <div class="t-scroll">
+    <div class="t-pill selected" onclick="selPill(this)"><div class="t-av">SH</div><div><div class="t-n">Shoban</div><div class="t-s">Lead physio</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">PQ</div><div><div class="t-n">Pei Qi</div><div class="t-s">Physiotherapy</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">HZ</div><div><div class="t-n">Haziq</div><div class="t-s">Sports rehab</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">CW</div><div><div class="t-n">Wei Zhi</div><div class="t-s">Sports massage</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">✦</div><div><div class="t-n">Any</div><div class="t-s">First available</div></div></div>
+  </div>
+  <div class="sec">Mon 25 Aug · Joo Chiat</div>
+  <div class="slots">
+    <div class="slot off">09:00</div><div class="slot" onclick="selSlot(this)">10:00</div><div class="slot sel" onclick="selSlot(this)">11:00</div><div class="slot off">12:00</div><div class="slot" onclick="selSlot(this)">14:00</div><div class="slot" onclick="selSlot(this)">15:00</div><div class="slot off">16:00</div><div class="slot" onclick="selSlot(this)">17:00</div>
+  </div>
+  <div class="sum-card">
+    <div class="sum-row"><span class="sum-l">Session</span><span class="sum-v">Initial Physio Assessment · 45 min</span></div>
+    <div class="sum-row"><span class="sum-l">With</span><span class="sum-v">Shoban · Joo Chiat</span></div>
+    <div class="sum-row"><span class="sum-l">When</span><span class="sum-v">Mon 25 Aug · 11:00 AM</span></div>
+    <div class="sum-row total"><span class="sum-l">Total</span><span class="sum-v">SGD 200</span></div>
+  </div>
+  <div style="height:16px;"></div>
+  <div class="f2"><div class="fg"><label class="fl">Name</label><input class="fi" type="text" placeholder="First name" autocomplete="given-name"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+65 9XXX XXXX"></div></div>
+  <div class="fg"><label class="fl">What brings you in?</label><select class="fs"><option>Sports injury</option><option>Back or neck pain</option><option>Post-surgery recovery</option><option>Return to sport</option><option>Chronic pain</option><option>General assessment</option></select></div>
+  <div class="fg"><label class="fl">How did you hear about us?</label><select class="fs"><option>Doctor referral</option><option>Google search</option><option>Instagram</option><option>Friend or colleague</option><option>Other</option></select></div>
+  <div style="height:80px;"></div>
+</div>
+<div class="book-foot"><div><div class="bf-label">Total today</div><div class="bf-val">SGD 200</div><div class="bf-meta">Initial Assessment · Shoban</div></div><button class="btn btn-p" onclick="go(2)">Confirm booking</button></div>
+</div>
+
+<!-- MEMBERSHIP -->
+<div class="screen" id="s2">
+<div class="sc-wrap" style="padding-bottom:0;">
+  <div class="sc-hd"><div class="eyebrow">Wellness membership</div><div class="sc-title">From patient to member.</div><div class="sc-sub">For patients who have completed a course and want to maintain the outcome.</div></div>
+  <div class="incl" id="tgt2">
+    <div class="incl-hd">Every membership includes</div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Priority booking with your preferred clinician</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>10% off all additional sessions</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Monthly WhatsApp check-in from your clinician</span></div>
+    <div class="incl-row"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Cancel anytime with 30 days notice</span></div>
+  </div>
+  <div class="sec">Choose your plan</div>
+  <div class="tiers">
+    <div class="tier"><div class="t-tier-lbl">Single session</div><div class="t-prow"><div class="t-price">SGD 180</div><div class="t-per">/ session</div></div><div class="t-desc">Follow-up sessions at rack rate. No commitment. Full flexibility.</div><div class="t-pill-tag base">Baseline rate</div><button class="btn btn-g" style="width:100%;font-size:10px;padding:10px;" onclick="go(1)">Book a session</button></div>
+    <div class="tier featured"><div class="t-badge">Most popular</div><div class="t-tier-lbl">Maintain · monthly</div><div class="t-prow"><div class="t-price">SGD 350</div><div class="t-per">/ month</div></div><div class="t-desc">Two maintenance sessions per month. Keeps the outcome you worked for. Prevents re-injury.</div><div class="t-pill-tag up">SGD 175/session · priority booking</div><button class="btn btn-p" style="width:100%;font-size:10px;padding:11px;" onclick="go(3)">Become a member</button></div>
+    <div class="tier"><div class="t-tier-lbl">Perform · monthly</div><div class="t-prow"><div class="t-price">SGD 500</div><div class="t-per">/ month</div></div><div class="t-desc">Three sessions per month. For athletes and high-frequency patients who treat physio as part of the training plan.</div><div class="t-pill-tag up">SGD 166/session · top priority access</div><button class="btn btn-g" style="width:100%;font-size:10px;padding:10px;" onclick="go(3)">Join Perform</button></div>
+  </div>
+  <div style="padding:0 2px;">
+    <div class="sec" style="margin-top:16px;">Business case</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-n">SGD 10.5K</div><div class="kpi-l">MRR at 30 members</div><div class="kpi-s">Blended SGD 350/mo</div></div>
+      <div class="kpi"><div class="kpi-n">31%</div><div class="kpi-l">Fixed costs covered</div><div class="kpi-s">Before a walk-in books</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 2,400</div><div class="kpi-l">LTV with membership</div><div class="kpi-s">vs SGD 1,100 today</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 0</div><div class="kpi-l">CAC at month 6+</div><div class="kpi-s">Already your patient</div></div>
+    </div>
+    <div class="ms-lbl">Tier comparison</div>
+    <table class="mt"><thead><tr><th>Tier</th><th>Price/mo</th><th>Per session</th><th>vs Rack</th></tr></thead><tbody>
+      <tr><td>Rack rate</td><td>Pay per visit</td><td>SGD 180</td><td>Baseline</td></tr>
+      <tr class="hl"><td>Maintain</td><td>SGD 350</td><td>SGD 175</td><td>-SGD 5</td></tr>
+      <tr class="hl"><td>Perform</td><td>SGD 500</td><td>SGD 167</td><td>-SGD 13</td></tr>
+    </tbody></table>
+    <div class="m-note">Membership trades a small per-session discount for predictable recurring revenue and committed patient retention. The LTV uplift from SGD 1,100 to SGD 2,400 justifies the discount entirely.</div>
+  </div>
+</div>
+</div>
+
+<!-- JOURNEY -->
+<div class="screen" id="s3">
+<div class="sc-wrap" style="padding:0;padding-bottom:0;">
+  <div style="padding:20px 18px 0;"><div class="eyebrow">Patient journey and business strategy</div><div class="sc-title">How it works.</div></div>
+  <div class="journey-tabs">
+    <button class="jt active" onclick="setJourney(0)">Journey</button>
+    <button class="jt" onclick="setJourney(1)">P&amp;L</button>
+    <button class="jt" onclick="setJourney(2)">LPH</button>
+    <button class="jt" onclick="setJourney(3)">Projection</button>
+    <button class="jt" onclick="setJourney(4)">Annual</button>
+  </div>
+
+  <!-- PATIENT JOURNEY -->
+  <div class="jpanel active" id="jp0">
+    <div class="cj-intro">
+      <div class="cj-intro-tag">Sarah · Maintain Member · Month 3</div>
+      <div class="cj-intro-title">The full patient journey</div>
+      <div class="cj-intro-sub">From first Google search to committed membership. Every touchpoint mapped.</div>
+    </div>
+
+    <!-- STAGE 1: DISCOVERY -->
+    <div class="cj-stage">
+      <div class="cj-stage-hd"><div class="cj-stage-num">01</div><div><div class="cj-stage-title">Discovery</div><div class="cj-stage-sub">How Sarah finds ARKO.</div></div></div>
+      <div class="cj-cards">
+        <div class="cj-card cj-card-accent">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Google Search</div><div class="cj-card-txt">"physiotherapy Joo Chiat" or "sports physio East Singapore". ARKO appears via SEO, GEO, and paid search. Condition pages and location pages match her search intent exactly.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Instagram</div><div class="cj-card-txt">Real patient outcomes, named clinicians, condition-specific content. ARKO's brand is built before Sarah books. She recognises the clinic before she needs it.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Doctor referral</div><div class="cj-card-txt">High trust, pre-qualified. Sarah arrives already convinced. The existing referral network remains the highest-trust channel at zero cost — but it cannot scale alone.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 2: FIRST SESSION -->
+    <div class="cj-stage">
+      <div class="cj-stage-hd"><div class="cj-stage-num">02</div><div><div class="cj-stage-title">First session</div><div class="cj-stage-sub">Initial assessment · SGD 200</div></div></div>
+      <div class="cj-cards">
+        <div class="cj-card cj-card-accent">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><path d="M12 22C6 17 2 13 2 8a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 5-4 9-10 14z"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Assessment and diagnosis</div><div class="cj-card-txt">45 minutes. Full history, diagnosis, treatment plan. Shoban captures contact details, condition notes, and goals. A patient record is created — not just a booking.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Course recommendation</div><div class="cj-card-txt">Sarah is told clearly: you need 5 follow-up sessions at SGD 180 each. Total course: SGD 1,100. A plan, not a guess. Commitment happens here.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 3: POST-SESSION LIFECYCLE -->
+    <div class="cj-stage">
+      <div class="cj-stage-hd"><div class="cj-stage-num">03</div><div><div class="cj-stage-title">Post-session lifecycle</div><div class="cj-stage-sub">Automated. Personalised. Running after every visit.</div></div></div>
+      <div class="wa" id="tgt3">
+        <div class="wa-hd"><div class="wa-av">AR</div><div><div class="wa-nm">ARKO Physio</div><div class="wa-st">WhatsApp · Cliniko</div></div></div>
+        <div class="wa-msgs">
+          <div class="wm in">Sarah, great session today. Shoban noted: keep loading through the heel this week and avoid incline for 5 days. Any questions, just reply here.<div class="t">Today · 4:45 PM</div></div>
+          <div class="wm out">Thank you, that makes sense. Should I ice it tonight?<div class="t">5:12 PM</div></div>
+          <div class="wm in">Yes — 15 minutes, no direct skin contact. We will check in again in a week.<div class="t">5:14 PM</div></div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tli"><div class="tl-dot">1h</div><div class="tl-b"><div class="tl-day">Same day · evening</div><div class="tl-title">Clinician check-in</div><div class="tl-txt">Personalised WhatsApp from the treating physio with specific recovery notes. Builds the relationship. Drives rebook intent.</div></div></div>
+        <div class="tli"><div class="tl-dot">24h</div><div class="tl-b"><div class="tl-day">Next day</div><div class="tl-title">Recovery follow-up</div><div class="tl-txt">"How are you feeling? Any soreness at this stage is expected. Here is what to watch for." Keeps the patient engaged between sessions.</div></div></div>
+        <div class="tli"><div class="tl-dot">7d</div><div class="tl-b"><div class="tl-day">Day 7</div><div class="tl-title">Rebooking prompt</div><div class="tl-txt">"Shoban has availability next Tuesday at 11am. Want to lock it in?" Direct link. One tap to confirm.</div></div></div>
+        <div class="tli"><div class="tl-dot">D3</div><div class="tl-b"><div class="tl-day">Session 3 · post-visit</div><div class="tl-title">Course completion reminder</div><div class="tl-txt">"You are halfway through your course. Great progress. Three sessions left — want to book them all now so you do not lose your slot?"</div></div></div>
+        <div class="tli" style="--dot-color:var(--accent);"><div class="tl-dot">45d</div><div class="tl-b"><div class="tl-day">Day 45 · no rebook</div><div class="tl-title">Lapsed patient reactivation</div><div class="tl-txt">"It has been a while, Sarah. No pressure — but if the knee has been playing up again, Shoban has a slot this week."</div></div></div>
+      </div>
+    </div>
+
+    <!-- STAGE 4: MEMBERSHIP -->
+    <div class="cj-stage">
+      <div class="cj-stage-hd"><div class="cj-stage-num">04</div><div><div class="cj-stage-title">Membership conversion</div><div class="cj-stage-sub">Triggered at course completion.</div></div></div>
+      <div class="cj-cards">
+        <div class="cj-card cj-card-accent">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Maintain · SGD 350/mo</div><div class="cj-card-txt">Two sessions per month. SGD 175 each. Priority booking. Keeps the outcome she worked six sessions to achieve.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Revenue floor</div><div class="cj-card-txt">30 members on the Maintain plan = SGD 10,500 MRR. Revenue that arrives before a single walk-in books. The business becomes structurally resilient.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">LTV from SGD 1,100 to SGD 2,400</div><div class="cj-card-txt">A patient who completes a course and joins the Maintain membership is worth SGD 2,400 per year vs SGD 1,100 for the course alone. Same acquisition cost.</div></div>
+        </div>
+      </div>
+      <div class="cj-sequence">
+        <div class="cj-seq-item"><div class="cj-seq-dot"></div><div class="cj-seq-body"><strong>Course completion · post-final session</strong> "Sarah, you have completed your course. The knee is tracking well. A Maintain membership keeps it that way — two sessions a month, priority booking. Want to set it up?"</div></div>
+        <div class="cj-seq-item"><div class="cj-seq-dot"></div><div class="cj-seq-body"><strong>If no response · Day 5</strong> "Still thinking? Here is what Maintain includes: two sessions, priority access, monthly check-in. Cancel anytime with 30 days notice."</div></div>
+        <div class="cj-seq-item"><div class="cj-seq-dot"></div><div class="cj-seq-body"><strong>If yes</strong> Payment link sent. Membership active. MRR +SGD 350. CAC is zero. Already your patient.</div></div>
+      </div>
+    </div>
+
+    <!-- STAGE 5: ANNUAL -->
+    <div class="cj-stage" style="border-bottom:none;padding-bottom:0;">
+      <div class="cj-stage-hd"><div class="cj-stage-num">05</div><div><div class="cj-stage-title">Annual commitment</div><div class="cj-stage-sub">Month 4. Shown only to consistent members.</div></div></div>
+      <div class="cj-cards">
+        <div class="cj-card cj-card-accent">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Sarah · 3 months straight</div><div class="cj-card-txt">"You have not missed a month. Lock in 12 months at your current rate and save SGD 350." Triggered only for members with 3+ consecutive months.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Maintain Annual · SGD 3,850</div><div class="cj-card-txt">12 months upfront. Save SGD 350 vs monthly billing. Rate locked for 12 months. Price stability is the strongest retention argument.</div></div>
+        </div>
+        <div class="cj-card">
+          <div class="cj-card-ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <div class="cj-card-body"><div class="cj-card-title">Perform Annual · SGD 5,500</div><div class="cj-card-txt">36 sessions. Save SGD 500. SGD 152 per session. For athletes who treat physio as infrastructure.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- P&L -->
+  <div class="jpanel" id="jp1">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-n">SGD 40K</div><div class="kpi-l">Current monthly revenue</div><div class="kpi-s">Down from SGD 60K pre-attrition</div></div>
+      <div class="kpi"><div class="kpi-n">43%</div><div class="kpi-l">Net margin</div><div class="kpi-s">SGD 5,855 monthly net</div></div>
+      <div class="kpi"><div class="kpi-n">336</div><div class="kpi-l">Delivered LPH/mo</div><div class="kpi-s">35% of 960 available</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 0</div><div class="kpi-l">Recurring MRR</div><div class="kpi-s">All transactional today</div></div>
+    </div>
+    <div class="ms-lbl">Monthly P&amp;L estimate</div>
+    <table class="mt"><thead><tr><th>Line item</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>
+      <tr><td>Physio sessions (B2C)</td><td>SGD 32,000</td><td>SGD 384K</td></tr>
+      <tr><td>Sports massage</td><td>SGD 5,500</td><td>SGD 66K</td></tr>
+      <tr><td>Virtual physio</td><td>SGD 1,300</td><td>SGD 15.6K</td></tr>
+      <tr><td>Talks and workshops</td><td>SGD 1,200</td><td>SGD 14.4K</td></tr>
+      <tr class="tot"><td>Total revenue</td><td>SGD 40,000</td><td>SGD 480K</td></tr>
+      <tr><td>Rent · Joo Chiat</td><td>(SGD 7,500)</td><td>(SGD 90K)</td></tr>
+      <tr><td>Salaries · 4 staff</td><td>(SGD 21,645)</td><td>(SGD 259.7K)</td></tr>
+      <tr><td>Admin and ops</td><td>(SGD 5,000)</td><td>(SGD 60K)</td></tr>
+      <tr class="tot hl"><td>Net profit</td><td>SGD 5,855</td><td>SGD 70.3K</td></tr>
+      <tr class="hl"><td>Net margin</td><td>14.6%</td><td></td></tr>
+    </tbody></table>
+    <div class="m-note">Revenue is down SGD 15–20K from pre-attrition levels. Fixed cost base is largely unchanged. Every LPH filled adds SGD 179 to the bottom line.</div>
+  </div>
+
+  <!-- LPH -->
+  <div class="jpanel" id="jp2">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-n">960</div><div class="kpi-l">Available LPH/mo</div><div class="kpi-s">4 staff × 8h × 30 days</div></div>
+      <div class="kpi"><div class="kpi-n">336</div><div class="kpi-l">Delivered LPH/mo</div><div class="kpi-s">35% utilisation</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 179</div><div class="kpi-l">Revenue per LPH</div><div class="kpi-s">Blended session rate</div></div>
+      <div class="kpi"><div class="kpi-n">624</div><div class="kpi-l">Idle LPH/mo</div><div class="kpi-s">Paid for. Not monetised.</div></div>
+    </div>
+    <div class="ms-lbl">Utilisation</div>
+    <div class="lph-bars">
+      <div class="lph-row"><div class="lph-l">Available</div><div class="lph-track"><div class="lph-fill dim" style="width:100%"></div></div><div class="lph-v" style="color:var(--text3)">960h</div></div>
+      <div class="lph-row"><div class="lph-l">Delivered</div><div class="lph-track"><div class="lph-fill" style="width:35%"></div></div><div class="lph-v">336h</div></div>
+      <div class="lph-row"><div class="lph-l">Idle</div><div class="lph-track"><div class="lph-fill warn" style="width:65%"></div></div><div class="lph-v" style="color:var(--red)">624h</div></div>
+      <div class="lph-row"><div class="lph-l">Break-even</div><div class="lph-track"><div class="lph-fill dim" style="width:19%"></div></div><div class="lph-v" style="color:var(--text3)">191h</div></div>
+    </div>
+    <div class="ms-lbl">LPH targets</div>
+    <table class="mt"><thead><tr><th>Scenario</th><th>LPH/mo</th><th>Utilisation</th><th>Revenue/mo</th></tr></thead><tbody>
+      <tr><td>Ceiling</td><td>960</td><td>100%</td><td>SGD 172K</td></tr>
+      <tr class="hl"><td>Current</td><td>336</td><td>35%</td><td>SGD 40K</td></tr>
+      <tr><td>Break-even</td><td>191</td><td>20%</td><td>SGD 34.2K</td></tr>
+      <tr><td>Pre-attrition</td><td>480</td><td>50%</td><td>SGD 60K</td></tr>
+      <tr class="tot"><td>Month 3 target</td><td>530</td><td>55%</td><td>SGD 62-63K</td></tr>
+    </tbody></table>
+    <div class="m-note">Fixed costs do not change between 336 LPH and 960 LPH. Every additional hour filled is SGD 179 dropping almost entirely to net profit.</div>
+  </div>
+
+  <!-- PROJECTION -->
+  <div class="jpanel" id="jp3">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-n">2.5x</div><div class="kpi-l">ROI by Month 3</div><div class="kpi-s">On incremental revenue</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 62K</div><div class="kpi-l">Target Month 3 revenue</div><div class="kpi-s">Back above pre-attrition</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 9K</div><div class="kpi-l">Total spend Month 3</div><div class="kpi-s">Retainer + media</div></div>
+      <div class="kpi"><div class="kpi-n">SGD 90K+</div><div class="kpi-l">Target Month 12</div><div class="kpi-s">With SEO compounding</div></div>
+    </div>
+    <div class="ms-lbl">90-day recovery</div>
+    <div class="proj-legend"><div class="pl-i"><div class="pl-dot cur"></div>Current</div><div class="pl-i"><div class="pl-dot y1"></div>Target</div></div>
+    <div class="proj-bars">
+      <div class="pbar-w"><div class="pbar cur" style="height:28px"></div><div class="pbar y1" style="height:34px"></div><div class="pbar-l">Physio</div></div>
+      <div class="pbar-w"><div class="pbar cur" style="height:8px"></div><div class="pbar y1" style="height:12px"></div><div class="pbar-l">Massage</div></div>
+      <div class="pbar-w"><div class="pbar cur" style="height:0px"></div><div class="pbar y1" style="height:14px"></div><div class="pbar-l">Members</div></div>
+      <div class="pbar-w"><div class="pbar cur" style="height:4px"></div><div class="pbar y1" style="height:6px"></div><div class="pbar-l">Virtual</div></div>
+      <div class="pbar-w"><div class="pbar cur" style="height:2px"></div><div class="pbar y1" style="height:4px"></div><div class="pbar-l">Talks</div></div>
+    </div>
+    <div class="ms-lbl">Month-by-month</div>
+    <table class="mt"><thead><tr><th>Period</th><th>Retainer</th><th>Media</th><th>Total spend</th><th>Revenue</th><th>ROI</th></tr></thead><tbody>
+      <tr class="hl"><td>Today</td><td>—</td><td>—</td><td>—</td><td>SGD 40K</td><td>—</td></tr>
+      <tr><td>Month 1</td><td>SGD 4,500</td><td>SGD 2,300</td><td>SGD 6,800</td><td>SGD 50-51K</td><td>1.5x</td></tr>
+      <tr><td>Month 2</td><td>SGD 4,500</td><td>SGD 3,000</td><td>SGD 7,500</td><td>SGD 54-55K</td><td>1.9x</td></tr>
+      <tr class="tot"><td>Month 3</td><td>SGD 4,500</td><td>SGD 4,500</td><td>SGD 9,000</td><td>SGD 62-63K</td><td>2.5x</td></tr>
+    </tbody></table>
+    <div class="m-note">ROI calculated on incremental revenue above SGD 40K baseline divided by total marketing spend. Media spend is separate from the retainer. Organic SEO contribution begins from Month 4 and is not counted in these figures.</div>
+  </div>
+
+  <!-- ANNUAL UPGRADE -->
+  <div class="jpanel" id="jp4">
+    <div class="sc-hd"><div class="eyebrow">Annual commitment</div><div class="sc-title">You have not missed a session in three months.</div><div class="sc-sub">Only shown to consistent members.</div></div>
+    <div class="anl-card">
+      <div class="ac-tag">Sarah's journey · Month 3</div>
+      <div class="ac-title">Lock in your rate. Save SGD 350.</div>
+      <div class="ac-body">At this rate, an annual membership saves you SGD 350 and locks in your session price for 12 months. No surprises.</div>
+      <div class="ac-stats"><div class="acs"><div class="acs-n">3</div><div class="acs-l">Months</div></div><div class="acs"><div class="acs-n">6</div><div class="acs-l">Sessions</div></div><div class="acs"><div class="acs-n">SGD 350</div><div class="acs-l">Saved</div></div></div>
+    </div>
+    <div class="sec">Choose your plan</div>
+    <div class="plan-rows">
+      <div class="plan-row" onclick="selPlan(this)"><div class="plan-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="plan-body"><div class="plan-tier-lbl">Maintain Annual</div><div class="plan-price">SGD 3,850</div><div class="plan-save">Save SGD 350 vs monthly billing</div></div></div>
+      <div class="plan-row sel" onclick="selPlan(this)"><div class="plan-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="plan-body"><div class="plan-tier-lbl">Perform Annual</div><div class="plan-price">SGD 5,500</div><div class="plan-save">Save SGD 500 vs monthly · 36 sessions</div></div><div class="plan-badge">Best value</div></div>
+    </div>
+    <div class="order-box">
+      <div class="o-row"><span class="o-l">Plan</span><span class="o-v">Perform Annual · 36 sessions</span></div>
+      <div class="o-row"><span class="o-l">Per session</span><span class="o-v">SGD 152.78</span></div>
+      <div class="o-row"><span class="o-l">Saving</span><span class="o-v">SGD 500 vs monthly</span></div>
+      <div class="o-row"><span class="o-l">Total today</span><span class="o-v" style="font-size:20px;color:var(--accent);">SGD 5,500</span></div>
+    </div>
+    <button class="btn btn-p btn-b">Lock in annual membership</button>
+    <p style="text-align:center;font-size:10px;color:var(--text3);margin-top:10px;letter-spacing:.08em;text-transform:uppercase;">One payment · 12 months · Rate locked</p>
+  </div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="ni active" onclick="go(0)" id="n0"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nl">Home</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(1)" id="n1"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="nl">Book</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(2)" id="n2"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><div class="nl">Member</div><div class="nd"></div></button>
+  <button class="ni" onclick="go(3)" id="n3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="nl">Journey</div><div class="nd"></div></button>
+</div>
+
+<!-- TOUR -->
+<div id="tourWrap">
+  <div id="tourBackdrop"></div>
+  <div id="tourSpot"></div>
+  <div id="tourBox">
+    <div id="tourLbl"></div>
+    <div id="tourH"></div>
+    <div id="tourB"></div>
+    <div class="tour-footer">
+      <div class="tour-pips" id="tourPips"></div>
+      <div class="tour-actions">
+        <button id="tbtnSkip">Skip</button>
+        <button id="tbtnNext">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var cur=0;
+function go(n){
+  document.querySelectorAll('.screen').forEach(function(s,i){
+    if(i===n&&i!==cur){s.classList.add('active');s.classList.remove('in');void s.offsetWidth;s.classList.add('in');}
+    else s.classList.toggle('active',i===n);
+  });
+  document.querySelectorAll('.ni').forEach(function(t,i){t.classList.toggle('active',i===n);});
+  document.getElementById('scrollArea').scrollTo({top:0,behavior:'instant'});
+  cur=n;closeProfile();
+}
+function setCat(el){document.querySelectorAll('.cat-tab').forEach(function(t){t.classList.remove('active');});el.classList.add('active');}
+function selSvc(el){document.querySelectorAll('.svc-row').forEach(function(r){r.classList.remove('selected');});el.classList.add('selected');}
+function selPill(el){el.closest('.t-scroll').querySelectorAll('.t-pill').forEach(function(p){p.classList.remove('selected');});el.classList.add('selected');}
+function selSlot(el){el.closest('.slots').querySelectorAll('.slot').forEach(function(s){s.classList.remove('sel');});el.classList.add('sel');}
+function selPlan(el){document.querySelectorAll('.plan-row').forEach(function(r){r.classList.remove('sel');});el.classList.add('sel');}
+function setJourney(n){
+  document.querySelectorAll('.jt').forEach(function(t,i){t.classList.toggle('active',i===n);});
+  document.querySelectorAll('.jpanel').forEach(function(p,i){p.classList.toggle('active',i===n);});
+}
+function toggleTheme(){var h=document.documentElement;h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('arko-t',h.getAttribute('data-theme'));}
+(function(){var s=localStorage.getItem('arko-t');if(s)document.documentElement.setAttribute('data-theme',s);})();
+function toggleProfile(){document.getElementById('profilePanel').classList.toggle('open');}
+function closeProfile(){document.getElementById('profilePanel').classList.remove('open');}
+
+var STEPS=[
+  {screen:0,tid:null,title:'Welcome to ARKO Physio',body:'A prototype of the full patient journey — from first Google search to annual membership. Built on real data for Shoban. Tap Next to walk through each screen.'},
+  {screen:0,tid:'tgt0',title:'Built on referrals alone',body:'One clinic, Joo Chiat. Four clinicians. Strong Google reviews and a genuine clinical POV. Zero paid acquisition to date. The product is ready. The distribution is not built yet.'},
+  {screen:1,tid:'tgt1',title:'The booking experience',body:'All services in one flow. One booking system, not multiple links. Patient data captured from first contact — condition, goal, referral source. Every booking builds the CRM.'},
+  {screen:2,tid:'tgt2',title:'The membership architecture',body:'Triggered after course completion. Patients who stay on a maintenance plan are worth SGD 2,400 per year vs SGD 1,100 for the course alone. Same acquisition cost.'},
+  {screen:3,tid:'tgt3',title:'The post-session lifecycle',body:'Every touchpoint on the Journey tab runs automatically after every visit. Check-in, rebooking, membership offer, reactivation. The CRM does the work Shoban currently does manually.'}
+];
+var tIdx=0;
+
+function startTour(){tIdx=0;document.getElementById('tourWrap').style.display='block';renderTour();}
+function renderTour(){
+  var s=STEPS[tIdx];
+  if(s.screen!==cur)go(s.screen);
+  document.getElementById('tourLbl').textContent='Step '+(tIdx+1)+' of '+STEPS.length;
+  document.getElementById('tourH').textContent=s.title;
+  document.getElementById('tourB').textContent=s.body;
+  document.getElementById('tbtnNext').textContent=tIdx===STEPS.length-1?'Done':'Next';
+  var pips=document.getElementById('tourPips');pips.innerHTML='';
+  STEPS.forEach(function(_,i){var d=document.createElement('div');d.className='tour-pip'+(i===tIdx?' on':'');pips.appendChild(d);});
+  setTimeout(positionTour,160);
+}
+function positionTour(){
+  var s=STEPS[tIdx];
+  var spot=document.getElementById('tourSpot');
+  var box=document.getElementById('tourBox');
+  if(s.tid){
+    var el=document.getElementById(s.tid);
+    if(el){
+      var r=el.getBoundingClientRect();var pad=6;
+      spot.style.display='block';spot.style.top=(r.top-pad)+'px';spot.style.left=(r.left-pad)+'px';spot.style.width=(r.width+pad*2)+'px';spot.style.height=(r.height+pad*2)+'px';
+      var spaceBelow=window.innerHeight-r.bottom-24;var spaceAbove=r.top-24;
+      if(spaceBelow>=180||spaceBelow>=spaceAbove){box.style.top=(r.bottom+14)+'px';box.style.bottom='auto';}
+      else{box.style.bottom=(window.innerHeight-r.top+14)+'px';box.style.top='auto';}
+      box.style.transform='translateX(-50%)';
+    }
+  } else {
+    spot.style.display='none';box.style.top='50%';box.style.bottom='auto';box.style.transform='translate(-50%,-50%)';
+  }
+}
+function endTour(){document.getElementById('tourWrap').style.display='none';localStorage.setItem('arko-tour','1');}
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('tbtnSkip').addEventListener('click',function(e){e.stopPropagation();endTour();});
+  document.getElementById('tbtnNext').addEventListener('click',function(e){
+    e.stopPropagation();
+    if(tIdx>=STEPS.length-1){endTour();return;}
+    tIdx++;renderTour();
+  });
+  document.getElementById('tourBackdrop').addEventListener('click',endTour);
+  if(!localStorage.getItem('arko-tour'))setTimeout(startTour,800);
+});
+</script>
+</body>
+</html>

@@ -116,7 +116,7 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
 
 .safe-top{height:env(safe-area-inset-top,0px);background:var(--nav);flex-shrink:0;z-index:500;position:relative;}
 
-.top-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:500;position:relative;}
+.top-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;z-index:500;position:sticky;top:0;}
 .logo{display:flex;align-items:center;gap:9px;}
 .logo-mark{width:28px;height:28px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .logo-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
@@ -209,11 +209,13 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
 .ht-photo-kiyoko{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/f3c01385-8ea9-4156-acb6-1142bb6ee658/P1035520.jpg");background-size:cover;background-position:center top;}
 .ht-photo-wei{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/d65187d3-b9a5-4e58-96a0-5276f7f03923/AugustineSoong-OnePercentRehab20250826-2.jpg");background-size:cover;background-position:center top;}
 .ht-photo-glen{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/c4930ddd-95e5-4846-af86-9178e690c25b/P1034549.jpg");background-size:cover;background-position:center top;}
-.ht-overlay{position:relative;z-index:1;padding:11px;width:100%;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.45) 60%,transparent 100%);}
+.ht-overlay{position:relative;z-index:1;padding:11px;width:100%;background:none;display:none;}
 .ht-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:300;color:#f7f9fa;letter-spacing:-.02em;margin-bottom:2px;}
 .ht-cred{font-family:'Inter',sans-serif;font-size:9px;color:rgba(247,249,250,.6);letter-spacing:.02em;margin-bottom:3px;}
 .ht-reviews{font-family:'Inter',sans-serif;font-size:9px;color:var(--accent);font-weight:600;}
-.ht-tags{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap;}
+.ht-name-lbl{font-size:13px;font-weight:600;color:var(--text);margin-top:8px;margin-bottom:3px;letter-spacing:-.01em;}
+.ht-sub-lbl{font-size:10px;color:var(--text3);margin-bottom:5px;}
+.ht-tags{display:flex;gap:4px;flex-wrap:wrap;}
 .ht-tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:rgba(247,249,250,0.07);color:var(--text3);border:1px solid var(--border);}
 
 /* SHARED CONTENT */
@@ -538,6 +540,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
           <div class="ht-reviews">★ 5.0 · 40+ reviews</div>
         </div>
       </div>
+      <div class="ht-name-lbl">Shoban</div>
+      <div class="ht-sub-lbl">Lead Physio</div>
       <div class="ht-tags"><span class="ht-tag">Sports rehab</span><span class="ht-tag">Manual therapy</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
@@ -548,6 +552,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
           <div class="ht-reviews">★ 4.9 · 20 reviews</div>
         </div>
       </div>
+      <div class="ht-name-lbl">Haziq</div>
+      <div class="ht-sub-lbl">Physiotherapist</div>
       <div class="ht-tags"><span class="ht-tag">Musculoskeletal</span><span class="ht-tag">Return to sport</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
@@ -558,6 +564,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
           <div class="ht-reviews">★ 4.9 · 14 reviews</div>
         </div>
       </div>
+      <div class="ht-name-lbl">Kiyoko</div>
+      <div class="ht-sub-lbl">Physiotherapist</div>
       <div class="ht-tags"><span class="ht-tag">Post-surgical</span><span class="ht-tag">Women's health</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
@@ -568,6 +576,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
           <div class="ht-reviews">★ 4.9 · 8 reviews</div>
         </div>
       </div>
+      <div class="ht-name-lbl">Chong Wei Zhi</div>
+      <div class="ht-sub-lbl">Sports Trainer</div>
       <div class="ht-tags"><span class="ht-tag">Sports massage</span><span class="ht-tag">Cupping</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
@@ -578,6 +588,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
           <div class="ht-reviews">★ 5.0 · 6 reviews</div>
         </div>
       </div>
+      <div class="ht-name-lbl">Glen Lee</div>
+      <div class="ht-sub-lbl">Senior S&C Coach</div>
       <div class="ht-tags"><span class="ht-tag">Strength</span><span class="ht-tag">Conditioning</span></div>
     </div>
   </div>
@@ -864,7 +876,7 @@ var STEPS=[
   {screen:0,tid:null,title:'Welcome to ARKO Physio',body:'A prototype of the full patient journey — from first Google search to annual membership. Built on real data for Shoban. Tap Next to walk through each screen.'},
   {screen:0,tid:'tgt0',title:'Built on referrals alone',body:'One clinic, Joo Chiat. Four clinicians. Strong Google reviews and a genuine clinical POV. Zero paid acquisition to date. The product is ready. The distribution is not built yet.'},
   {screen:1,tid:'tgt1',title:'The booking experience',body:'All services in one flow. One booking system, not multiple links. Patient data captured from first contact — condition, goal, referral source. Every booking builds the CRM.'},
-  {screen:2,tid:'tgt2',title:'The membership architecture',body:'Triggered after course completion. Patients who stay on a maintenance plan are worth SGD 2,400 per year vs SGD 1,100 for the course alone. Same acquisition cost.'},
+  {screen:2,tid:'tgt2',title:'The membership architecture',body:'Triggered after course completion. A patient on the Maintain plan is worth SGD 2,400 per year vs SGD 1,100 for a course alone. Same acquisition cost, double the LTV.'},
   {screen:3,tid:'tgt3',title:'The post-session lifecycle',body:'Every touchpoint on the Journey tab runs automatically after every visit. Check-in, rebooking, membership offer, reactivation. The CRM does the work Shoban currently does manually.'}
 ];
 var tIdx=0;

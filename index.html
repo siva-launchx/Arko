@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,8 +7,37 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ARKO Physio</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* ── LIGHT (default) — Muscle Lab Supahub palette, orange accent ── */
+[data-theme="light"]{
+  --bg:#ffffff;
+  --bg2:#f1f5f9;
+  --bg3:#fde8d8;
+  --bg4:#fdf3ec;
+  --card:#ffffff;
+  --card2:#f1f5f9;
+  --border:rgba(107,117,137,0.2);
+  --border2:#111827;
+  --text:#111827;
+  --text2:#3f4654;
+  --text3:#6b7589;
+  --accent:#E8611A;
+  --accent-text:#ffffff;
+  --ai:rgba(232,97,26,0.08);
+  --ai2:rgba(232,97,26,0.04);
+  --green:#38a169;
+  --red:#e53e3e;
+  --nav:rgba(255,255,255,0.97);
+  --wa:#f1f5f9;--wa-in:#fde8d8;--wa-out:#fddeca;--wa-t:#111827;
+  --fh:'Montserrat',sans-serif;
+  --fb:'Inter',sans-serif;
+  --r:12px;--rl:24px;--rxl:24px;--rpill:9999px;
+  --btn-r:12px;
+  --shadow:0 4px 12px rgba(0,0,0,0.07);
+}
+
+/* ── DARK — unchanged ── */
 [data-theme="dark"]{
   --bg:#080808;
   --bg2:#0e0e0e;
@@ -19,8 +48,8 @@
   --border:rgba(247,249,250,0.1);
   --border2:rgba(247,249,250,0.22);
   --text:#f7f9fa;
-  --text2:#8a8a8a;
-  --text3:#5a5a5a;
+  --text2:#b0b0b0;
+  --text3:#737373;
   --accent:#E8611A;
   --accent-text:#f7f9fa;
   --ai:rgba(232,97,26,0.12);
@@ -28,6 +57,7 @@
   --green:#68d391;
   --red:#fc8181;
   --nav:rgba(8,8,8,0.85);
+  --wa:#0e0e0e;--wa-in:#131313;--wa-out:#2a1200;--wa-t:#f7f9fa;
   --fh:'Inter',sans-serif;
   --fb:'Inter',sans-serif;
   --r:8px;--rl:16px;--rxl:20px;--rpill:9999px;
@@ -35,31 +65,50 @@
   --shadow:none;
 }
 
-[data-theme="light"]{
-  --bg:#ffffff;
-  --bg2:#f5f0eb;
-  --bg3:#ffe8d6;
-  --bg4:#fdf1e8;
-  --card:#ffffff;
-  --card2:#f5f0eb;
-  --border:rgba(0,0,0,0.1);
-  --border2:#111;
-  --text:#111111;
-  --text2:#444444;
-  --text3:#888888;
-  --accent:#E8611A;
-  --accent-text:#ffffff;
-  --ai:rgba(232,97,26,0.1);
-  --ai2:rgba(232,97,26,0.05);
-  --green:#2f855a;
-  --red:#c53030;
-  --nav:rgba(255,255,255,0.95);
-  --fh:'Inter',sans-serif;
-  --fb:'Inter',sans-serif;
-  --r:10px;--rl:18px;--rxl:22px;--rpill:9999px;
-  --btn-r:10px;
-  --shadow:0 2px 10px rgba(0,0,0,0.06);
-}
+/* ── LIGHT MODE OVERRIDES (Muscle Lab Supahub style) ── */
+[data-theme="light"] .hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(36px,9.5vw,60px);font-weight:700;letter-spacing:-.025em;}
+[data-theme="light"] .sc-title{font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:-.025em;}
+[data-theme="light"] .sc-n{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--accent);}
+[data-theme="light"] .hero-tag{background:var(--ai);border-color:rgba(232,97,26,0.2);color:var(--accent);}
+[data-theme="light"] .sc{background:#fff;box-shadow:var(--shadow);border-color:var(--border);}
+[data-theme="light"] .svc-row{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .svc-row.selected{border-color:var(--accent);box-shadow:0 0 0 3px var(--ai);}
+[data-theme="light"] .cat-tab{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+[data-theme="light"] .t-pill{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .t-pill.selected{background:var(--accent);border-color:var(--accent);}
+[data-theme="light"] .t-pill.selected .t-n{color:#fff;}
+[data-theme="light"] .t-pill.selected .t-av{background:rgba(255,255,255,.25);color:#fff;}
+[data-theme="light"] .slot{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.05);font-weight:600;color:var(--text2);}
+[data-theme="light"] .slot.sel{background:var(--accent);color:#fff;border-color:var(--accent);}
+[data-theme="light"] .sum-card{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .btn-p{background:var(--accent);color:#fff;font-weight:700;border-radius:var(--btn-r);}
+[data-theme="light"] .btn-g{background:#fff;color:var(--text);border:1px solid var(--border);font-weight:600;border-radius:var(--btn-r);}
+[data-theme="light"] .tier{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .kpi{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .wa-hd{background:var(--accent);}
+[data-theme="light"] .wa-nm{color:#fff;}
+[data-theme="light"] .wa-st{color:rgba(255,255,255,.75);}
+[data-theme="light"] .wa-av{background:rgba(255,255,255,.25);color:#fff;}
+[data-theme="light"] .wm.in{background:#fff;border:1px solid var(--border);}
+[data-theme="light"] .wm.out{background:var(--ai);}
+[data-theme="light"] .ht-photo{box-shadow:0 4px 16px rgba(0,0,0,0.12);border:none;}
+[data-theme="light"] .pp-hd .pp-av{background:var(--accent);}
+[data-theme="light"] .logo-mark{background:var(--accent);}
+[data-theme="light"] .prof-stat-n,[data-theme="light"] .pp-stat-n{color:var(--accent);}
+[data-theme="light"] .nav-btn{background:#fff;border:1px solid var(--border);color:var(--text2);}
+[data-theme="light"] .anl-card{background:var(--ai2);border-color:rgba(232,97,26,0.2);}
+[data-theme="light"] .plan-row{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .order-box{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .cj-card{background:#fff;box-shadow:var(--shadow);}
+[data-theme="light"] .cj-card.cj-card-accent{background:var(--ai2);border-color:rgba(232,97,26,0.2);box-shadow:none;}
+[data-theme="light"] .fi,[data-theme="light"] .fs{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;}
+[data-theme="light"] .kpi-n{color:var(--accent);}
+[data-theme="light"] .sc-n{color:var(--accent);}
+[data-theme="light"] .acs-n{color:var(--accent);}
+[data-theme="light"] .plan-price{color:var(--accent);}
+[data-theme="light"] .tier.featured .t-price{color:var(--accent);}
+[data-theme="light"] .sum-row.total .sum-v{color:var(--accent);}
+[data-theme="light"] .bf-val{font-weight:700;color:var(--text);}
 
 html{height:100%;height:-webkit-fill-available;}
 body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100dvh;height:100vh;transition:background .3s,color .3s;overscroll-behavior:none;-webkit-font-smoothing:antialiased;}
@@ -155,10 +204,11 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
 .ht-card:active{opacity:.8;}
 .ht-photo{width:148px;height:192px;border-radius:var(--rxl);overflow:hidden;position:relative;display:flex;align-items:flex-end;background-color:#0e0e0e;border:1px solid var(--border);}
 .ht-photo::before{content:attr(data-initials);position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-family:'Inter',sans-serif;font-size:46px;font-weight:200;letter-spacing:-.03em;opacity:.2;color:#f7f9fa;}
-.ht-photo-shoban{background:linear-gradient(160deg,#1a0800 0%,#2d1200 50%,#3d1a00 100%);}
-.ht-photo-peiqi{background:linear-gradient(160deg,#0a0a1a 0%,#1a1a2d 50%,#0a1228 100%);}
-.ht-photo-haziq{background:linear-gradient(160deg,#0a1a0a 0%,#142814 50%,#0f200f 100%);}
-.ht-photo-wei{background:linear-gradient(160deg,#1a0a0a 0%,#2d1414 50%,#1a0808 100%);}
+.ht-photo-shoban{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/1f07263f-749d-4a0f-806e-b83002ff4752/OnePercentRehab20240815-4.jpg");background-size:cover;background-position:center top;}
+.ht-photo-haziq-r{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/b0e7b0be-b96d-45cf-bf90-987b37852974/AugustineSoong-20260220ArkoPhysio-1.jpg");background-size:cover;background-position:center top;}
+.ht-photo-kiyoko{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/f3c01385-8ea9-4156-acb6-1142bb6ee658/P1035520.jpg");background-size:cover;background-position:center top;}
+.ht-photo-wei{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/d65187d3-b9a5-4e58-96a0-5276f7f03923/AugustineSoong-OnePercentRehab20250826-2.jpg");background-size:cover;background-position:center top;}
+.ht-photo-glen{background-image:url("https://images.squarespace-cdn.com/content/v1/66c47f135781e827f4040c30/c4930ddd-95e5-4846-af86-9178e690c25b/P1034549.jpg");background-size:cover;background-position:center top;}
 .ht-overlay{position:relative;z-index:1;padding:11px;width:100%;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.45) 60%,transparent 100%);}
 .ht-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:300;color:#f7f9fa;letter-spacing:-.02em;margin-bottom:2px;}
 .ht-cred{font-family:'Inter',sans-serif;font-size:9px;color:rgba(247,249,250,.6);letter-spacing:.02em;margin-bottom:3px;}
@@ -472,7 +522,7 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
     <button class="btn btn-g" onclick="toggleProfile()">Our physios</button>
   </div>
   <div class="hero-stats" id="tgt0">
-    <div class="sc"><div class="sc-n">4</div><div class="sc-l">Clinicians</div></div>
+    <div class="sc"><div class="sc-n">5</div><div class="sc-l">Clinicians</div></div>
     <div class="sc"><div class="sc-n">4★+</div><div class="sc-l">Google reviews</div></div>
     <div class="sc"><div class="sc-n">SGD 200</div><div class="sc-l">First session</div></div>
     <div class="sc"><div class="sc-n">Joo Chiat</div><div class="sc-l">Location</div></div>
@@ -491,24 +541,24 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
       <div class="ht-tags"><span class="ht-tag">Sports rehab</span><span class="ht-tag">Manual therapy</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
-      <div class="ht-photo ht-photo-peiqi" data-initials="PQ">
-        <div class="ht-overlay">
-          <div class="ht-name">Toh Pei Qi</div>
-          <div class="ht-cred">Physiotherapist · Joo Chiat</div>
-          <div class="ht-reviews">★ 4.9 · 18 reviews</div>
-        </div>
-      </div>
-      <div class="ht-tags"><span class="ht-tag">Post-surgical</span><span class="ht-tag">Women's health</span></div>
-    </div>
-    <div class="ht-card" onclick="go(1)">
-      <div class="ht-photo ht-photo-haziq" data-initials="HZ">
+      <div class="ht-photo ht-photo-haziq-r" data-initials="HZ">
         <div class="ht-overlay">
           <div class="ht-name">Haziq</div>
           <div class="ht-cred">Physiotherapist · Joo Chiat</div>
-          <div class="ht-reviews">★ 4.9 · 12 reviews</div>
+          <div class="ht-reviews">★ 4.9 · 20 reviews</div>
         </div>
       </div>
       <div class="ht-tags"><span class="ht-tag">Musculoskeletal</span><span class="ht-tag">Return to sport</span></div>
+    </div>
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-kiyoko" data-initials="KY">
+        <div class="ht-overlay">
+          <div class="ht-name">Kiyoko</div>
+          <div class="ht-cred">Physiotherapist · Joo Chiat</div>
+          <div class="ht-reviews">★ 4.9 · 14 reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Post-surgical</span><span class="ht-tag">Women's health</span></div>
     </div>
     <div class="ht-card" onclick="go(1)">
       <div class="ht-photo ht-photo-wei" data-initials="CW">
@@ -519,6 +569,16 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
         </div>
       </div>
       <div class="ht-tags"><span class="ht-tag">Sports massage</span><span class="ht-tag">Cupping</span></div>
+    </div>
+    <div class="ht-card" onclick="go(1)">
+      <div class="ht-photo ht-photo-glen" data-initials="GL">
+        <div class="ht-overlay">
+          <div class="ht-name">Glen Lee</div>
+          <div class="ht-cred">Senior S&C Coach · Joo Chiat</div>
+          <div class="ht-reviews">★ 5.0 · 6 reviews</div>
+        </div>
+      </div>
+      <div class="ht-tags"><span class="ht-tag">Strength</span><span class="ht-tag">Conditioning</span></div>
     </div>
   </div>
 </div>
@@ -547,9 +607,10 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
   <div class="sec">Clinician</div>
   <div class="t-scroll">
     <div class="t-pill selected" onclick="selPill(this)"><div class="t-av">SH</div><div><div class="t-n">Shoban</div><div class="t-s">Lead physio</div></div></div>
-    <div class="t-pill" onclick="selPill(this)"><div class="t-av">PQ</div><div><div class="t-n">Pei Qi</div><div class="t-s">Physiotherapy</div></div></div>
-    <div class="t-pill" onclick="selPill(this)"><div class="t-av">HZ</div><div><div class="t-n">Haziq</div><div class="t-s">Sports rehab</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">HZ</div><div><div class="t-n">Haziq</div><div class="t-s">Physiotherapy</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">KY</div><div><div class="t-n">Kiyoko</div><div class="t-s">Physiotherapy</div></div></div>
     <div class="t-pill" onclick="selPill(this)"><div class="t-av">CW</div><div><div class="t-n">Wei Zhi</div><div class="t-s">Sports massage</div></div></div>
+    <div class="t-pill" onclick="selPill(this)"><div class="t-av">GL</div><div><div class="t-n">Glen</div><div class="t-s">S&C Coach</div></div></div>
     <div class="t-pill" onclick="selPill(this)"><div class="t-av">✦</div><div><div class="t-n">Any</div><div class="t-s">First available</div></div></div>
   </div>
   <div class="sec">Mon 25 Aug · Joo Chiat</div>
@@ -613,10 +674,7 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
   <div style="padding:20px 18px 0;"><div class="eyebrow">Patient journey and business strategy</div><div class="sc-title">How it works.</div></div>
   <div class="journey-tabs">
     <button class="jt active" onclick="setJourney(0)">Journey</button>
-    <button class="jt" onclick="setJourney(1)">P&amp;L</button>
-    <button class="jt" onclick="setJourney(2)">LPH</button>
-    <button class="jt" onclick="setJourney(3)">Projection</button>
-    <button class="jt" onclick="setJourney(4)">Annual</button>
+    <button class="jt" onclick="setJourney(1)">Annual</button>
   </div>
 
   <!-- PATIENT JOURNEY -->
@@ -725,85 +783,8 @@ body{min-height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);
     </div>
   </div>
 
-  <!-- P&L -->
-  <div class="jpanel" id="jp1">
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-n">SGD 40K</div><div class="kpi-l">Current monthly revenue</div><div class="kpi-s">Down from SGD 60K pre-attrition</div></div>
-      <div class="kpi"><div class="kpi-n">43%</div><div class="kpi-l">Net margin</div><div class="kpi-s">SGD 5,855 monthly net</div></div>
-      <div class="kpi"><div class="kpi-n">336</div><div class="kpi-l">Delivered LPH/mo</div><div class="kpi-s">35% of 960 available</div></div>
-      <div class="kpi"><div class="kpi-n">SGD 0</div><div class="kpi-l">Recurring MRR</div><div class="kpi-s">All transactional today</div></div>
-    </div>
-    <div class="ms-lbl">Monthly P&amp;L estimate</div>
-    <table class="mt"><thead><tr><th>Line item</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>
-      <tr><td>Physio sessions (B2C)</td><td>SGD 32,000</td><td>SGD 384K</td></tr>
-      <tr><td>Sports massage</td><td>SGD 5,500</td><td>SGD 66K</td></tr>
-      <tr><td>Virtual physio</td><td>SGD 1,300</td><td>SGD 15.6K</td></tr>
-      <tr><td>Talks and workshops</td><td>SGD 1,200</td><td>SGD 14.4K</td></tr>
-      <tr class="tot"><td>Total revenue</td><td>SGD 40,000</td><td>SGD 480K</td></tr>
-      <tr><td>Rent · Joo Chiat</td><td>(SGD 7,500)</td><td>(SGD 90K)</td></tr>
-      <tr><td>Salaries · 4 staff</td><td>(SGD 21,645)</td><td>(SGD 259.7K)</td></tr>
-      <tr><td>Admin and ops</td><td>(SGD 5,000)</td><td>(SGD 60K)</td></tr>
-      <tr class="tot hl"><td>Net profit</td><td>SGD 5,855</td><td>SGD 70.3K</td></tr>
-      <tr class="hl"><td>Net margin</td><td>14.6%</td><td></td></tr>
-    </tbody></table>
-    <div class="m-note">Revenue is down SGD 15–20K from pre-attrition levels. Fixed cost base is largely unchanged. Every LPH filled adds SGD 179 to the bottom line.</div>
-  </div>
-
-  <!-- LPH -->
-  <div class="jpanel" id="jp2">
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-n">960</div><div class="kpi-l">Available LPH/mo</div><div class="kpi-s">4 staff × 8h × 30 days</div></div>
-      <div class="kpi"><div class="kpi-n">336</div><div class="kpi-l">Delivered LPH/mo</div><div class="kpi-s">35% utilisation</div></div>
-      <div class="kpi"><div class="kpi-n">SGD 179</div><div class="kpi-l">Revenue per LPH</div><div class="kpi-s">Blended session rate</div></div>
-      <div class="kpi"><div class="kpi-n">624</div><div class="kpi-l">Idle LPH/mo</div><div class="kpi-s">Paid for. Not monetised.</div></div>
-    </div>
-    <div class="ms-lbl">Utilisation</div>
-    <div class="lph-bars">
-      <div class="lph-row"><div class="lph-l">Available</div><div class="lph-track"><div class="lph-fill dim" style="width:100%"></div></div><div class="lph-v" style="color:var(--text3)">960h</div></div>
-      <div class="lph-row"><div class="lph-l">Delivered</div><div class="lph-track"><div class="lph-fill" style="width:35%"></div></div><div class="lph-v">336h</div></div>
-      <div class="lph-row"><div class="lph-l">Idle</div><div class="lph-track"><div class="lph-fill warn" style="width:65%"></div></div><div class="lph-v" style="color:var(--red)">624h</div></div>
-      <div class="lph-row"><div class="lph-l">Break-even</div><div class="lph-track"><div class="lph-fill dim" style="width:19%"></div></div><div class="lph-v" style="color:var(--text3)">191h</div></div>
-    </div>
-    <div class="ms-lbl">LPH targets</div>
-    <table class="mt"><thead><tr><th>Scenario</th><th>LPH/mo</th><th>Utilisation</th><th>Revenue/mo</th></tr></thead><tbody>
-      <tr><td>Ceiling</td><td>960</td><td>100%</td><td>SGD 172K</td></tr>
-      <tr class="hl"><td>Current</td><td>336</td><td>35%</td><td>SGD 40K</td></tr>
-      <tr><td>Break-even</td><td>191</td><td>20%</td><td>SGD 34.2K</td></tr>
-      <tr><td>Pre-attrition</td><td>480</td><td>50%</td><td>SGD 60K</td></tr>
-      <tr class="tot"><td>Month 3 target</td><td>530</td><td>55%</td><td>SGD 62-63K</td></tr>
-    </tbody></table>
-    <div class="m-note">Fixed costs do not change between 336 LPH and 960 LPH. Every additional hour filled is SGD 179 dropping almost entirely to net profit.</div>
-  </div>
-
-  <!-- PROJECTION -->
-  <div class="jpanel" id="jp3">
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-n">2.5x</div><div class="kpi-l">ROI by Month 3</div><div class="kpi-s">On incremental revenue</div></div>
-      <div class="kpi"><div class="kpi-n">SGD 62K</div><div class="kpi-l">Target Month 3 revenue</div><div class="kpi-s">Back above pre-attrition</div></div>
-      <div class="kpi"><div class="kpi-n">SGD 9K</div><div class="kpi-l">Total spend Month 3</div><div class="kpi-s">Retainer + media</div></div>
-      <div class="kpi"><div class="kpi-n">SGD 90K+</div><div class="kpi-l">Target Month 12</div><div class="kpi-s">With SEO compounding</div></div>
-    </div>
-    <div class="ms-lbl">90-day recovery</div>
-    <div class="proj-legend"><div class="pl-i"><div class="pl-dot cur"></div>Current</div><div class="pl-i"><div class="pl-dot y1"></div>Target</div></div>
-    <div class="proj-bars">
-      <div class="pbar-w"><div class="pbar cur" style="height:28px"></div><div class="pbar y1" style="height:34px"></div><div class="pbar-l">Physio</div></div>
-      <div class="pbar-w"><div class="pbar cur" style="height:8px"></div><div class="pbar y1" style="height:12px"></div><div class="pbar-l">Massage</div></div>
-      <div class="pbar-w"><div class="pbar cur" style="height:0px"></div><div class="pbar y1" style="height:14px"></div><div class="pbar-l">Members</div></div>
-      <div class="pbar-w"><div class="pbar cur" style="height:4px"></div><div class="pbar y1" style="height:6px"></div><div class="pbar-l">Virtual</div></div>
-      <div class="pbar-w"><div class="pbar cur" style="height:2px"></div><div class="pbar y1" style="height:4px"></div><div class="pbar-l">Talks</div></div>
-    </div>
-    <div class="ms-lbl">Month-by-month</div>
-    <table class="mt"><thead><tr><th>Period</th><th>Retainer</th><th>Media</th><th>Total spend</th><th>Revenue</th><th>ROI</th></tr></thead><tbody>
-      <tr class="hl"><td>Today</td><td>—</td><td>—</td><td>—</td><td>SGD 40K</td><td>—</td></tr>
-      <tr><td>Month 1</td><td>SGD 4,500</td><td>SGD 2,300</td><td>SGD 6,800</td><td>SGD 50-51K</td><td>1.5x</td></tr>
-      <tr><td>Month 2</td><td>SGD 4,500</td><td>SGD 3,000</td><td>SGD 7,500</td><td>SGD 54-55K</td><td>1.9x</td></tr>
-      <tr class="tot"><td>Month 3</td><td>SGD 4,500</td><td>SGD 4,500</td><td>SGD 9,000</td><td>SGD 62-63K</td><td>2.5x</td></tr>
-    </tbody></table>
-    <div class="m-note">ROI calculated on incremental revenue above SGD 40K baseline divided by total marketing spend. Media spend is separate from the retainer. Organic SEO contribution begins from Month 4 and is not counted in these figures.</div>
-  </div>
-
   <!-- ANNUAL UPGRADE -->
-  <div class="jpanel" id="jp4">
+  <div class="jpanel" id="jp1">
     <div class="sc-hd"><div class="eyebrow">Annual commitment</div><div class="sc-title">You have not missed a session in three months.</div><div class="sc-sub">Only shown to consistent members.</div></div>
     <div class="anl-card">
       <div class="ac-tag">Sarah's journey · Month 3</div>
@@ -872,10 +853,10 @@ function selSlot(el){el.closest('.slots').querySelectorAll('.slot').forEach(func
 function selPlan(el){document.querySelectorAll('.plan-row').forEach(function(r){r.classList.remove('sel');});el.classList.add('sel');}
 function setJourney(n){
   document.querySelectorAll('.jt').forEach(function(t,i){t.classList.toggle('active',i===n);});
-  document.querySelectorAll('.jpanel').forEach(function(p,i){p.classList.toggle('active',i===n);});
+  var panels=[document.getElementById('jp0'),document.getElementById('jp1')];panels.forEach(function(p,i){if(p)p.classList.toggle('active',i===n);});
 }
 function toggleTheme(){var h=document.documentElement;h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');localStorage.setItem('arko-t',h.getAttribute('data-theme'));}
-(function(){var s=localStorage.getItem('arko-t');if(s)document.documentElement.setAttribute('data-theme',s);})();
+(function(){var s=localStorage.getItem('arko-t');document.documentElement.setAttribute('data-theme',s||'light');})();
 function toggleProfile(){document.getElementById('profilePanel').classList.toggle('open');}
 function closeProfile(){document.getElementById('profilePanel').classList.remove('open');}
 
